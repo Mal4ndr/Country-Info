@@ -1,0 +1,23 @@
+<section>
+   <form>
+      <input type="text" placeholder="Search country by name" [(ngModel)]="searchTerm" name="name">
+      <button class="primary" type="button">Search</button>
+   </form>
+   <div class="container">
+      <div class="countries">
+         <nav>
+            <ul *ngFor="let country of countries | filterBy: ['name']: this.searchTerm">
+               <li><a [routerLink]="['/country', country.countryCode.toLowerCase()]">{{country.name}}</a>
+               </li>
+            </ul>
+         </nav>
+      </div>
+      <div class="widget">
+         <div class="country" *ngFor="let country of randomCountries">
+            <div class="country__name">{{country.name}}</div>
+            <div class="country__holiday">{{country.nextHolidayName}}</div>
+            <div class="country__date">{{country.nextHolidayDate}}</div>
+         </div>
+      </div>
+   </div>
+</section>
