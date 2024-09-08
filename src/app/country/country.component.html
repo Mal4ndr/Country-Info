@@ -1,1 +1,33 @@
-<p>country works!</p>
+<h2>Public holidays in {{country.commonName}}</h2>
+<h3>Year: {{selectedYear}}
+</h3>
+<div class="container">
+   <div class="holidays">
+      <nav>
+         <ul *ngFor="let holiday of holidays">
+            <li>
+               <p>
+                  <span>{{holiday.name}}<br></span>
+                  <span>{{holiday.date}}</span>
+               </p>
+            </li>
+         </ul>
+      </nav>
+   </div>
+   <div class="years">
+      <ul class="pagination">
+         <li class="page-item" (click)="switchToPreviousYear()">
+            <a class="page-link">
+               <span aria-hidden="true">&laquo;</span>
+            </a>
+         </li>
+         <li class="page-item" *ngFor="let year of years" (click)="onYearSelected(year)"><span class="page-link"
+               [ngClass]="year === selectedYear ? 'active' : ''">{{year}}</span></li>
+         <li class="page-item" (click)="switchToNextYear()">
+            <a class="page-link">
+               <span aria-hidden="true">&raquo;</span>
+            </a>
+         </li>
+      </ul>
+   </div>
+</div>

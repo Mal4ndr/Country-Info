@@ -17,4 +17,12 @@ export class NagerDateService {
   getNextHoliday(countryCode: string): Observable<any> {
     return this.http.get(`${this.baseURL}/NextPublicHolidays/${countryCode}`);
   }
+
+  getHolidaysList(year: number, countryCode: string) {
+    return this.http.get(`${this.baseURL}/PublicHolidays/${year}/${countryCode}`);
+  }
+
+  getCountryInfo(countryCode: string) {
+    return this.http.get(`${this.baseURL}/CountryInfo/${countryCode}`);
+  }
 }
