@@ -4,24 +4,20 @@ import { NagerDateService } from '../services/nager-date.service';
 import { NgArrayPipesModule } from 'ngx-pipes';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
+import { map, mergeMap, toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgArrayPipesModule,
-    RouterLink,
-  ],
+  imports: [CommonModule, FormsModule, NgArrayPipesModule, RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   countries: any[] = [];
   randomCountries: any[] = [];
-  searchTerm = "";
+  searchTerm = '';
 
   constructor(private nagerDateService: NagerDateService) { }
 
@@ -29,15 +25,16 @@ export class HomeComponent implements OnInit {
     this.nagerDateService.getCountries().subscribe({
       next: (data: any) => {
         this.countries = data;
-        this.getRandomCountries().then((randomCountries) => {
-          this.randomCountries = randomCountries;
+        this.getRandomCountries().subscribe({
+          next: (data: any) => this.randomCountries = data,
+          error: (error) => console.log('Failed to fetch random countries for widget ')
         });
       },
-      error: (error) => console.log('Failed to fetch countries ', error)
+      error: (error) => console.log('Failed to fetch countries ', error),
     });
   }
 
-  private async getRandomCountries(): Promise<any[]> {
+  private getRandomCountries(): Observable<any[]> {
     const randomCountries: any[] = [];
     const selectedIndices = new Set<number>();
 
@@ -52,21 +49,22 @@ export class HomeComponent implements OnInit {
     }
 
     // fetching the next holiday data for each country
-    for (const country of randomCountries) {
-      try {
-        const data = await lastValueFrom(this.nagerDateService.getNextHoliday(country.countryCode));
-        if (data && data.length > 0) {
-          const nextHoliday = data[0];
-          country.nextHolidayName = nextHoliday.name;
-          country.nextHolidayDate = nextHoliday.date;
-        } else {
-          console.warn(`No upcoming holidays found for ${country.name}`);
-        }
-      } catch (error) {
-        console.error(`Error fetching holiday data for ${country.name}:`, error);
-      }
-    }
-
-    return randomCountries;
+    return from(randomCountries).pipe(
+      mergeMap((country) =>
+        this.nagerDateService.getNextHoliday(country.countryCode).pipe(
+          map((data) => {
+            if (data && data.length > 0) {
+              const nextHoliday = data[0];
+              country.nextHolidayName = nextHoliday.name;
+              country.nextHolidayDate = nextHoliday.date;
+            } else {
+              console.warn(`No upcoming holidays found for ${country.name}`);
+            }
+            return country;
+          })
+        )
+      ),
+      toArray()
+    );
   }
 }

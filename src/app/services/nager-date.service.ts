@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NagerDateService {
-  private baseURL = 'https://date.nager.at/api/v3';
+  private baseURL = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -18,11 +19,11 @@ export class NagerDateService {
     return this.http.get(`${this.baseURL}/NextPublicHolidays/${countryCode}`);
   }
 
-  getHolidaysList(year: number, countryCode: string) {
+  getHolidaysList(year: number, countryCode: string): Observable<any> {
     return this.http.get(`${this.baseURL}/PublicHolidays/${year}/${countryCode}`);
   }
 
-  getCountryInfo(countryCode: string) {
+  getCountryInfo(countryCode: string): Observable<any> {
     return this.http.get(`${this.baseURL}/CountryInfo/${countryCode}`);
   }
 }
