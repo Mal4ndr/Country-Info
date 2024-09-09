@@ -1,10 +1,21 @@
-<main>
-  <header class="header">
-    <div class="logo">
-      <span class="logo__text">Country-Info</span>
+<header class="header bg-light sticky-top py-4">
+  <div class="container">
+    <div class="header__inner d-flex flex-column flex-sm-row">
+      <div class="header__logo me-3">
+        <a [routerLink]="['/home']" class="header__logo-link"><span class="fw-bold fs-3">CountryInfo</span></a>
+      </div>
     </div>
-  </header>
-  <section class="content">
-    <router-outlet />
-  </section>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="content py-4">
+      <router-outlet />
+    </div>
+  </div>
 </main>
+<footer class="footer bg-light py-4">
+  <div class=" container">
+    <p class="fw-semibold fs-6">Angular engineer test assessment - Country Info</p>
+  </div>
+</footer>

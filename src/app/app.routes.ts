@@ -4,5 +4,6 @@ import { CountryComponent } from './country/country.component';
 
 export const routes: Routes = [
    { path: 'home', component: HomeComponent },
-   { path: 'country/:countryCode', component: CountryComponent, }
+   { path: 'country/:countryCode', component: CountryComponent },
+   { title: 'wildcard', path: '**', component: HomeComponent }
 ];

@@ -1,23 +1,31 @@
-<section>
-   <form>
-      <input type="text" placeholder="Search country by name" [(ngModel)]="searchTerm" name="name">
-      <button class="primary" type="button">Search</button>
-   </form>
-   <div class="container">
-      <div class="countries">
-         <nav>
-            <ul *ngFor="let country of countries | filterBy: ['name']: this.searchTerm">
-               <li><a [routerLink]="['/country', country.countryCode.toLowerCase()]">{{country.name}}</a>
+<div class="content__inner">
+   <div class="countries d-flex flex-column">
+      <div class="countries__list-wrapper">
+         <div class="search-bar">
+            <input type="text" class="form-control" placeholder="Search country by name" [(ngModel)]="searchTerm"
+               name="name">
+         </div>
+         <nav class="countries__nav">
+            <ul class="countries__list">
+               <li *ngFor="let country of countries | filterBy: ['name']: this.searchTerm">
+                  <a [routerLink]="['/country', country.countryCode.toLowerCase()]">{{country.name}}</a>
                </li>
             </ul>
          </nav>
       </div>
-      <div class="widget">
-         <div class="country" *ngFor="let country of randomCountries">
-            <div class="country__name">{{country.name}}</div>
-            <div class="country__holiday">{{country.nextHolidayName}}</div>
-            <div class="country__date">{{country.nextHolidayDate}}</div>
+      <div class="countries__widget">
+         <span class="countries__label">Take a look at 3 random countries and their next holiday</span>
+         <div class="countries__card-wrapper d-flex flex-column flex-md-row">
+            <div class="country card" *ngFor="let country of randomCountries">
+               <div class="country__name card-header fw-bold">
+                  <span>{{country.name}}</span>
+               </div>
+               <div class="card-body">
+                  <div class="country__holiday">{{country.nextHolidayName}}</div>
+                  <div class="country__date">{{country.nextHolidayDate}}</div>
+               </div>
+            </div>
          </div>
       </div>
    </div>
-</section>
+</div>

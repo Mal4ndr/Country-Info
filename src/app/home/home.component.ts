@@ -16,7 +16,7 @@ import { lastValueFrom } from 'rxjs';
     RouterLink,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   countries: any[] = [];
@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
         this.countries = data;
         this.getRandomCountries().then((randomCountries) => {
           this.randomCountries = randomCountries;
-          console.log(this.randomCountries); // logs the array of random countries with holiday data
         });
       },
       error: (error) => console.log('Failed to fetch countries ', error)

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ],
   templateUrl: './country.component.html',
-  styleUrl: './country.component.css'
+  styleUrl: './country.component.scss'
 })
 export class CountryComponent implements OnInit {
   selectedYear: number = new Date().getFullYear();

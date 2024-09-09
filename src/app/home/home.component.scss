@@ -1,0 +1,39 @@
+li {
+   &:hover {
+      text-decoration: underline;
+   }
+}
+
+.countries {
+   &__list-wrapper {
+      margin-top: 48px;
+      order: 2;
+   }
+
+   &__list {
+      margin: 0;
+   }
+
+   &__widget {
+      order: 1;
+   }
+
+   &__nav {
+      margin-top: 24px;
+   }
+}
+
+.country {
+   margin-top: 24px;
+}
+
+
+
+// media
+@media only screen and (min-width: 768px) {
+   .country {
+      &:not(:first-child) {
+         margin-left: 20px;
+      }
+   }
+}
